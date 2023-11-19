@@ -13,8 +13,8 @@ namespace PhacMan\ConsoleTable\Tests\Formatter;
 
 use Exception;
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Formatter\OutputFormatterStyle;
+use PHPUnit\Framework\TestCase;
 
 class OutputFormatterStyleTest extends TestCase
 {
@@ -103,7 +103,7 @@ class OutputFormatterStyleTest extends TestCase
             $style->setHref('idea://open/?file=/path/SomeFile.php&line=12');
             $this->assertSame("\e]8;;idea://open/?file=/path/SomeFile.php&line=12\e\\some URL\e]8;;\e\\", $style->apply('some URL'));
         } finally {
-            putenv('TERMINAL_EMULATOR'.($prevTerminalEmulator ? "=$prevTerminalEmulator" : ''));
+            putenv('TERMINAL_EMULATOR' . ($prevTerminalEmulator ? "=$prevTerminalEmulator" : ''));
         }
     }
 }

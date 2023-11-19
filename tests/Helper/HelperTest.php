@@ -11,9 +11,9 @@
 
 namespace PhacMan\ConsoleTable\Tests\Helper;
 
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Formatter\OutputFormatter;
 use PhacMan\ConsoleTable\Helper\Helper;
+use PHPUnit\Framework\TestCase;
 
 class HelperTest extends TestCase
 {

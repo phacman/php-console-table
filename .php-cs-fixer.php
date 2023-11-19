@@ -2,7 +2,9 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__ . '/src')
-    ->notPath('Compiler/Template.php');
+    ->in(__DIR__ . '/tests')
+    ->notPath('Compiler/Template.php')
+    ->notPath('Helper/TableTest.php');
 $config = new PhpCsFixer\Config;
 
 return $config->setRules([

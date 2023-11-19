@@ -11,10 +11,10 @@
 
 namespace PhacMan\ConsoleTable\Tests\Output;
 
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Formatter\OutputFormatter;
 use PhacMan\ConsoleTable\Output\ConsoleOutput;
 use PhacMan\ConsoleTable\Output\Output;
+use PHPUnit\Framework\TestCase;
 
 class ConsoleOutputTest extends TestCase
 {

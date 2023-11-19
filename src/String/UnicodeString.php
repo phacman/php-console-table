@@ -277,8 +277,8 @@ class UnicodeString extends AbstractUnicodeString
         $str = clone $this;
 
         $start = $start ? strlen(grapheme_substr($this->string, 0, $start)) : 0;
-        $length = $length ? strlen(grapheme_substr($this->string, $start, $length ?? 2147483647)) : $length;
-        $str->string = substr_replace($this->string, $replacement, $start, $length ?? 2147483647);
+        $length = $length ? strlen(grapheme_substr($this->string, $start, $length)) : 2147483647;
+        $str->string = substr_replace($this->string, $replacement, $start, $length);
         normalizer_is_normalized($str->string) ?: $str->string = normalizer_normalize($str->string);
 
         if (false === $str->string) {

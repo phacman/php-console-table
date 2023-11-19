@@ -13,10 +13,10 @@ namespace PhacMan\ConsoleTable\Tests\Helper;
 
 use Exception;
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Exception\ExceptionInterface;
 use PhacMan\ConsoleTable\Helper\HelperInterface;
 use PhacMan\ConsoleTable\Helper\HelperSet;
+use PHPUnit\Framework\TestCase;
 
 class HelperSetTest extends TestCase
 {

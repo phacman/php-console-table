@@ -11,11 +11,11 @@
 
 namespace PhacMan\ConsoleTable\Tests\Formatter;
 
-use PHPUnit\Framework\TestCase;
+use function array_key_exists;
 use PhacMan\ConsoleTable\Formatter\OutputFormatter;
 use PhacMan\ConsoleTable\Formatter\OutputFormatterStyle;
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use function array_key_exists;
 
 class OutputFormatterTest extends TestCase
 {
@@ -108,12 +108,12 @@ class OutputFormatterTest extends TestCase
 
         $this->assertEquals(
             "(\033[32mz>=2.0,<<<a2.3\\\033[39m)",
-            $formatter->format('(<info>'.$formatter->escape('z>=2.0,<\\<<a2.3\\').'</info>)')
+            $formatter->format('(<info>' . $formatter->escape('z>=2.0,<\\<<a2.3\\') . '</info>)')
         );
 
         $this->assertEquals(
             "\033[32m<error>some error</error>\033[39m",
-            $formatter->format('<info>'.$formatter->escape('<error>some error</error>').'</info>')
+            $formatter->format('<info>' . $formatter->escape('<error>some error</error>') . '</info>')
         );
     }
 
@@ -176,13 +176,13 @@ class OutputFormatterTest extends TestCase
         $result = $method->invoke($formatter, $styleString);
         if (null === $expected) {
             $this->assertNull($result);
-            $expected = $tag.$input.'</'.$styleString.'>';
+            $expected = $tag . $input . '</' . $styleString . '>';
             $this->assertSame($expected, $formatter->format($expected));
         } else {
             /* @var OutputFormatterStyle $result */
             $this->assertInstanceOf(OutputFormatterStyle::class, $result);
-            $this->assertSame($expected, $formatter->format($tag.$input.'</>'));
-            $this->assertSame($expected, $formatter->format($tag.$input.'</'.$styleString.'>'));
+            $this->assertSame($expected, $formatter->format($tag . $input . '</>'));
+            $this->assertSame($expected, $formatter->format($tag . $input . '</' . $styleString . '>'));
         }
     }
 
@@ -222,7 +222,7 @@ class OutputFormatterTest extends TestCase
     {
         $formatter = new OutputFormatter(true);
         $long = str_repeat('\\', 14000);
-        $this->assertEquals("\033[37;41msome error\033[39;49m".$long, $formatter->format('<error>some error</error>'.$long));
+        $this->assertEquals("\033[37;41msome error\033[39;49m" . $long, $formatter->format('<error>some error</error>' . $long));
     }
 
     public function testFormatToStringObject()
@@ -251,13 +251,13 @@ class OutputFormatterTest extends TestCase
         $terminalEmulator = $shouldBeJediTerm ? 'JetBrains-JediTerm' : 'Unknown';
 
         $prevTerminalEmulator = getenv('TERMINAL_EMULATOR');
-        putenv('TERMINAL_EMULATOR='.$terminalEmulator);
+        putenv('TERMINAL_EMULATOR=' . $terminalEmulator);
 
         try {
             $this->assertEquals($expectedDecoratedOutput, (new OutputFormatter(true))->format($input));
             $this->assertEquals($expectedNonDecoratedOutput, (new OutputFormatter(false))->format($input));
         } finally {
-            putenv('TERMINAL_EMULATOR'.($prevTerminalEmulator ? "=$prevTerminalEmulator" : ''));
+            putenv('TERMINAL_EMULATOR' . ($prevTerminalEmulator ? "=$prevTerminalEmulator" : ''));
         }
     }
 
@@ -309,49 +309,49 @@ class OutputFormatterTest extends TestCase
         $formatter = new OutputFormatter(true);
 
         $this->assertEquals(<<<EOF
-\033[32m
-some text\033[39m
-EOF
+            \033[32m
+            some text\033[39m
+            EOF
             , $formatter->format(<<<'EOF'
-<info>
-some text</info>
-EOF
+                <info>
+                some text</info>
+                EOF
             ));
 
         $this->assertEquals(<<<EOF
-\033[32msome text
-\033[39m
-EOF
+            \033[32msome text
+            \033[39m
+            EOF
             , $formatter->format(<<<'EOF'
-<info>some text
-</info>
-EOF
+                <info>some text
+                </info>
+                EOF
             ));
 
         $this->assertEquals(<<<EOF
-\033[32m
-some text
-\033[39m
-EOF
+            \033[32m
+            some text
+            \033[39m
+            EOF
             , $formatter->format(<<<'EOF'
-<info>
-some text
-</info>
-EOF
+                <info>
+                some text
+                </info>
+                EOF
             ));
 
         $this->assertEquals(<<<EOF
-\033[32m
-some text
-more text
-\033[39m
-EOF
+            \033[32m
+            some text
+            more text
+            \033[39m
+            EOF
             , $formatter->format(<<<'EOF'
-<info>
-some text
-more text
-</info>
-EOF
+                <info>
+                some text
+                more text
+                </info>
+                EOF
             ));
     }
 
@@ -383,7 +383,7 @@ EOF
 
 class TableCell
 {
-    public function __toString(): string
+    public function __toString() : string
     {
         return '<info>some info</info>';
     }

@@ -11,12 +11,12 @@
 
 namespace PhacMan\ConsoleTable\Tests;
 
+use const DIRECTORY_SEPARATOR;
 use Generator;
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Output\AnsiColorMode;
 use PhacMan\ConsoleTable\Terminal;
+use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use const DIRECTORY_SEPARATOR;
 
 class TerminalTest extends TestCase
 {
@@ -24,7 +24,7 @@ class TerminalTest extends TestCase
     private $lineSize;
     private $ansiCon;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->colSize = getenv('COLUMNS');
         $this->lineSize = getenv('LINES');
@@ -32,11 +32,11 @@ class TerminalTest extends TestCase
         $this->resetStatics();
     }
 
-    protected function tearDown(): void
+    protected function tearDown() : void
     {
-        putenv($this->colSize ? 'COLUMNS='.$this->colSize : 'COLUMNS');
-        putenv($this->lineSize ? 'LINES' : 'LINES='.$this->lineSize);
-        putenv($this->ansiCon ? 'ANSICON='.$this->ansiCon : 'ANSICON');
+        putenv($this->colSize ? 'COLUMNS=' . $this->colSize : 'COLUMNS');
+        putenv($this->lineSize ? 'LINES' : 'LINES=' . $this->lineSize);
+        putenv($this->ansiCon ? 'ANSICON=' . $this->ansiCon : 'ANSICON');
         $this->resetStatics();
     }
 
@@ -112,13 +112,13 @@ class TerminalTest extends TestCase
 
             $this->assertSame($expected, Terminal::getColorMode());
         } finally {
-            (false !== $oriColorTerm) ? putenv('COLORTERM='.$oriColorTerm) : putenv('COLORTERM');
-            (false !== $oriTerm) ? putenv('TERM='.$oriTerm) : putenv('TERM');
+            (false !== $oriColorTerm) ? putenv('COLORTERM=' . $oriColorTerm) : putenv('COLORTERM');
+            (false !== $oriTerm) ? putenv('TERM=' . $oriTerm) : putenv('TERM');
             Terminal::setColorMode(null);
         }
     }
 
-    public static function provideTerminalColorEnv(): Generator
+    public static function provideTerminalColorEnv() : Generator
     {
         yield ['truecolor', null, AnsiColorMode::Ansi24];
         yield ['TRUECOLOR', null, AnsiColorMode::Ansi24];
@@ -146,8 +146,8 @@ class TerminalTest extends TestCase
             Terminal::setColorMode(AnsiColorMode::Ansi24); // Force change by user.
             $this->assertSame(AnsiColorMode::Ansi24, Terminal::getColorMode());
         } finally {
-            (false !== $oriColorTerm) ? putenv('COLORTERM='.$oriColorTerm) : putenv('COLORTERM');
-            (false !== $oriTerm) ? putenv('TERM='.$oriTerm) : putenv('TERM');
+            (false !== $oriColorTerm) ? putenv('COLORTERM=' . $oriColorTerm) : putenv('COLORTERM');
+            (false !== $oriTerm) ? putenv('TERM=' . $oriTerm) : putenv('TERM');
             Terminal::setColorMode(null);
         }
     }
