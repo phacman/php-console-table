@@ -11,9 +11,9 @@
 
 namespace PhacMan\ConsoleTable\Tests\Output;
 
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Formatter\OutputFormatterStyle;
 use PhacMan\ConsoleTable\Output\Output;
+use PHPUnit\Framework\TestCase;
 
 class OutputTest extends TestCase
 {
@@ -88,7 +88,7 @@ class OutputTest extends TestCase
         $this->assertEquals("foo\nbar\n", $output->output, '->writeln() can take an iterable of messages to output');
     }
 
-    private function generateMessages(): iterable
+    private function generateMessages() : iterable
     {
         yield 'foo';
         yield 'bar';
@@ -182,8 +182,8 @@ class TestOutput extends Output
         $this->output = '';
     }
 
-    protected function doWrite(string $message, bool $newline): void
+    protected function doWrite(string $message, bool $newline) : void
     {
-        $this->output .= $message.($newline ? "\n" : '');
+        $this->output .= $message . ($newline ? "\n" : '');
     }
 }

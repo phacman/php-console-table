@@ -12,21 +12,21 @@
 namespace PhacMan\ConsoleTable\Tests\Output;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Output\Output;
 use PhacMan\ConsoleTable\Output\StreamOutput;
 use const PHP_EOL;
+use PHPUnit\Framework\TestCase;
 
 class StreamOutputTest extends TestCase
 {
     protected $stream;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->stream = fopen('php://memory', 'a', false);
     }
 
-    protected function tearDown(): void
+    protected function tearDown() : void
     {
         $this->stream = null;
     }
@@ -56,12 +56,12 @@ class StreamOutputTest extends TestCase
         $output = new StreamOutput($this->stream);
         $output->writeln('foo');
         rewind($output->getStream());
-        $this->assertEquals('foo'. PHP_EOL, stream_get_contents($output->getStream()), '->doWrite() writes to the stream');
+        $this->assertEquals('foo' . PHP_EOL, stream_get_contents($output->getStream()), '->doWrite() writes to the stream');
     }
 
     public function testDoWriteOnFailure()
     {
-        $resource = fopen(__DIR__.'/../Fixtures/stream_output_file.txt', 'r', false);
+        $resource = fopen(__DIR__ . '/../Fixtures/stream_output_file.txt', 'r', false);
         $output = new StreamOutput($resource);
         rewind($output->getStream());
         $this->assertEquals('', stream_get_contents($output->getStream()));

@@ -11,23 +11,23 @@
 
 namespace PhacMan\ConsoleTable\Tests\Output;
 
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Formatter\OutputFormatter;
 use PhacMan\ConsoleTable\Output\ConsoleSectionOutput;
 use PhacMan\ConsoleTable\Output\OutputInterface;
 use PhacMan\ConsoleTable\Output\StreamOutput;
 use const PHP_EOL;
+use PHPUnit\Framework\TestCase;
 
 class ConsoleSectionOutputTest extends TestCase
 {
     private $stream;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->stream = fopen('php://memory', 'r+', false);
     }
 
-    protected function tearDown(): void
+    protected function tearDown() : void
     {
         $this->stream = null;
     }
@@ -37,11 +37,11 @@ class ConsoleSectionOutputTest extends TestCase
         $sections = [];
         $output = new ConsoleSectionOutput($this->stream, $sections, OutputInterface::VERBOSITY_NORMAL, true, new OutputFormatter());
 
-        $output->writeln('Foo'. PHP_EOL.'Bar');
+        $output->writeln('Foo' . PHP_EOL . 'Bar');
         $output->clear();
 
         rewind($output->getStream());
-        $this->assertEquals('Foo'. PHP_EOL.'Bar'. PHP_EOL.sprintf("\x1b[%dA", 2)."\x1b[0J", stream_get_contents($output->getStream()));
+        $this->assertEquals('Foo' . PHP_EOL . 'Bar' . PHP_EOL . sprintf("\x1b[%dA", 2) . "\x1b[0J", stream_get_contents($output->getStream()));
     }
 
     public function testClearNumberOfLines()
@@ -53,7 +53,7 @@ class ConsoleSectionOutputTest extends TestCase
         $output->clear(2);
 
         rewind($output->getStream());
-        $this->assertEquals("Foo\nBar\nBaz\nFooBar". PHP_EOL.sprintf("\x1b[%dA", 2)."\x1b[0J", stream_get_contents($output->getStream()));
+        $this->assertEquals("Foo\nBar\nBaz\nFooBar" . PHP_EOL . sprintf("\x1b[%dA", 2) . "\x1b[0J", stream_get_contents($output->getStream()));
     }
 
     public function testClearNumberOfLinesWithMultipleSections()
@@ -70,7 +70,7 @@ class ConsoleSectionOutputTest extends TestCase
 
         rewind($output->getStream());
 
-        $this->assertEquals('Foo'. PHP_EOL.'Bar'. PHP_EOL."\x1b[1A\x1b[0J\e[1A\e[0J".'Baz'. PHP_EOL.'Foo'. PHP_EOL, stream_get_contents($output->getStream()));
+        $this->assertEquals('Foo' . PHP_EOL . 'Bar' . PHP_EOL . "\x1b[1A\x1b[0J\e[1A\e[0J" . 'Baz' . PHP_EOL . 'Foo' . PHP_EOL, stream_get_contents($output->getStream()));
     }
 
     public function testClearPreservingEmptyLines()
@@ -80,13 +80,13 @@ class ConsoleSectionOutputTest extends TestCase
         $output1 = new ConsoleSectionOutput($output->getStream(), $sections, OutputInterface::VERBOSITY_NORMAL, true, new OutputFormatter());
         $output2 = new ConsoleSectionOutput($output->getStream(), $sections, OutputInterface::VERBOSITY_NORMAL, true, new OutputFormatter());
 
-        $output2->writeln(PHP_EOL.'foo');
+        $output2->writeln(PHP_EOL . 'foo');
         $output2->clear(1);
         $output1->writeln('bar');
 
         rewind($output->getStream());
 
-        $this->assertEquals(PHP_EOL.'foo'. PHP_EOL."\x1b[1A\x1b[0J\x1b[1A\x1b[0J".'bar'. PHP_EOL. PHP_EOL, stream_get_contents($output->getStream()));
+        $this->assertEquals(PHP_EOL . 'foo' . PHP_EOL . "\x1b[1A\x1b[0J\x1b[1A\x1b[0J" . 'bar' . PHP_EOL . PHP_EOL, stream_get_contents($output->getStream()));
     }
 
     public function testOverwrite()
@@ -98,7 +98,7 @@ class ConsoleSectionOutputTest extends TestCase
         $output->overwrite('Bar');
 
         rewind($output->getStream());
-        $this->assertEquals('Foo'. PHP_EOL."\x1b[1A\x1b[0JBar". PHP_EOL, stream_get_contents($output->getStream()));
+        $this->assertEquals('Foo' . PHP_EOL . "\x1b[1A\x1b[0JBar" . PHP_EOL, stream_get_contents($output->getStream()));
     }
 
     public function testMaxHeight()
@@ -110,22 +110,22 @@ class ConsoleSectionOutputTest extends TestCase
 
         // fill the section
         $output->writeln(['One', 'Two', 'Three']);
-        $expected .= 'One'. PHP_EOL.'Two'. PHP_EOL.'Three'. PHP_EOL;
+        $expected .= 'One' . PHP_EOL . 'Two' . PHP_EOL . 'Three' . PHP_EOL;
 
         // cause overflow (redraw whole section, without first line)
         $output->writeln('Four');
         $expected .= "\x1b[3A\x1b[0J";
-        $expected .= 'Two'. PHP_EOL.'Three'. PHP_EOL.'Four'. PHP_EOL;
+        $expected .= 'Two' . PHP_EOL . 'Three' . PHP_EOL . 'Four' . PHP_EOL;
 
         // cause overflow with multiple new lines at once
-        $output->writeln('Five'. PHP_EOL.'Six');
+        $output->writeln('Five' . PHP_EOL . 'Six');
         $expected .= "\x1b[3A\x1b[0J";
-        $expected .= 'Four'. PHP_EOL.'Five'. PHP_EOL.'Six'. PHP_EOL;
+        $expected .= 'Four' . PHP_EOL . 'Five' . PHP_EOL . 'Six' . PHP_EOL;
 
         // reset line height (redraw whole section, displaying all lines)
         $output->setMaxHeight(0);
         $expected .= "\x1b[3A\x1b[0J";
-        $expected .= 'One'. PHP_EOL.'Two'. PHP_EOL.'Three'. PHP_EOL.'Four'. PHP_EOL.'Five'. PHP_EOL.'Six'. PHP_EOL;
+        $expected .= 'One' . PHP_EOL . 'Two' . PHP_EOL . 'Three' . PHP_EOL . 'Four' . PHP_EOL . 'Five' . PHP_EOL . 'Six' . PHP_EOL;
 
         rewind($output->getStream());
         $this->assertEquals($expected, stream_get_contents($output->getStream()));
@@ -144,22 +144,22 @@ class ConsoleSectionOutputTest extends TestCase
 
         // fill the first section
         $firstSection->writeln(['One', 'Two', 'Three']);
-        $expected .= 'One'. PHP_EOL.'Two'. PHP_EOL.'Three'. PHP_EOL;
+        $expected .= 'One' . PHP_EOL . 'Two' . PHP_EOL . 'Three' . PHP_EOL;
 
         // fill the second section
         $secondSection->writeln(['One', 'Two', 'Three']);
-        $expected .= 'One'. PHP_EOL.'Two'. PHP_EOL.'Three'. PHP_EOL;
+        $expected .= 'One' . PHP_EOL . 'Two' . PHP_EOL . 'Three' . PHP_EOL;
 
         // cause overflow of second section (redraw whole section, without first line)
         $secondSection->writeln('Four');
         $expected .= "\x1b[3A\x1b[0J";
-        $expected .= 'Two'. PHP_EOL.'Three'. PHP_EOL.'Four'. PHP_EOL;
+        $expected .= 'Two' . PHP_EOL . 'Three' . PHP_EOL . 'Four' . PHP_EOL;
 
         // cause overflow of first section (redraw whole section, without first line)
-        $firstSection->writeln('Four'. PHP_EOL.'Five'. PHP_EOL.'Six');
+        $firstSection->writeln('Four' . PHP_EOL . 'Five' . PHP_EOL . 'Six');
         $expected .= "\x1b[6A\x1b[0J";
-        $expected .= 'Four'. PHP_EOL.'Five'. PHP_EOL.'Six'. PHP_EOL;
-        $expected .= 'Two'. PHP_EOL.'Three'. PHP_EOL.'Four'. PHP_EOL;
+        $expected .= 'Four' . PHP_EOL . 'Five' . PHP_EOL . 'Six' . PHP_EOL;
+        $expected .= 'Two' . PHP_EOL . 'Three' . PHP_EOL . 'Four' . PHP_EOL;
 
         rewind($this->stream);
         $this->assertEquals(escapeshellcmd($expected), escapeshellcmd(stream_get_contents($this->stream)));
@@ -175,11 +175,11 @@ class ConsoleSectionOutputTest extends TestCase
         // fill the section
         $output->writeln(['One', 'Two']);
         $output->write('Three');
-        $expected .= 'One'. PHP_EOL.'Two'. PHP_EOL.'Three'. PHP_EOL;
+        $expected .= 'One' . PHP_EOL . 'Two' . PHP_EOL . 'Three' . PHP_EOL;
 
         // append text to the last line
         $output->write(' and Four');
-        $expected .= "\x1b[1A\x1b[0J".'Three and Four'. PHP_EOL;
+        $expected .= "\x1b[1A\x1b[0J" . 'Three and Four' . PHP_EOL;
 
         rewind($output->getStream());
         $this->assertEquals($expected, stream_get_contents($output->getStream()));
@@ -190,11 +190,11 @@ class ConsoleSectionOutputTest extends TestCase
         $sections = [];
         $output = new ConsoleSectionOutput($this->stream, $sections, OutputInterface::VERBOSITY_NORMAL, true, new OutputFormatter());
 
-        $output->writeln('Foo'. PHP_EOL.'Bar'. PHP_EOL.'Baz');
+        $output->writeln('Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz');
         $output->overwrite('Bar');
 
         rewind($output->getStream());
-        $this->assertEquals('Foo'. PHP_EOL.'Bar'. PHP_EOL.'Baz'. PHP_EOL.sprintf("\x1b[%dA", 3)."\x1b[0J".'Bar'. PHP_EOL, stream_get_contents($output->getStream()));
+        $this->assertEquals('Foo' . PHP_EOL . 'Bar' . PHP_EOL . 'Baz' . PHP_EOL . sprintf("\x1b[%dA", 3) . "\x1b[0J" . 'Bar' . PHP_EOL, stream_get_contents($output->getStream()));
     }
 
     public function testAddingMultipleSections()
@@ -220,7 +220,7 @@ class ConsoleSectionOutputTest extends TestCase
         $output2->overwrite('Foobar');
 
         rewind($output->getStream());
-        $this->assertEquals('Foo'. PHP_EOL.'Bar'. PHP_EOL."\x1b[2A\x1b[0JBar". PHP_EOL."\x1b[1A\x1b[0JBaz". PHP_EOL.'Bar'. PHP_EOL."\x1b[1A\x1b[0JFoobar". PHP_EOL, stream_get_contents($output->getStream()));
+        $this->assertEquals('Foo' . PHP_EOL . 'Bar' . PHP_EOL . "\x1b[2A\x1b[0JBar" . PHP_EOL . "\x1b[1A\x1b[0JBaz" . PHP_EOL . 'Bar' . PHP_EOL . "\x1b[1A\x1b[0JFoobar" . PHP_EOL, stream_get_contents($output->getStream()));
     }
 
     public function testMultipleSectionsOutputWithoutNewline()
@@ -232,23 +232,23 @@ class ConsoleSectionOutputTest extends TestCase
         $output2 = new ConsoleSectionOutput($this->stream, $sections, OutputInterface::VERBOSITY_NORMAL, true, new OutputFormatter());
 
         $output1->write('Foo');
-        $expected .= 'Foo'. PHP_EOL;
+        $expected .= 'Foo' . PHP_EOL;
         $output2->writeln('Bar');
-        $expected .= 'Bar'. PHP_EOL;
+        $expected .= 'Bar' . PHP_EOL;
 
         $output1->writeln(' is not foo.');
-        $expected .= "\x1b[2A\x1b[0JFoo is not foo.". PHP_EOL.'Bar'. PHP_EOL;
+        $expected .= "\x1b[2A\x1b[0JFoo is not foo." . PHP_EOL . 'Bar' . PHP_EOL;
 
         $output2->write('Baz');
-        $expected .= 'Baz'. PHP_EOL;
+        $expected .= 'Baz' . PHP_EOL;
         $output2->write('bar');
-        $expected .= "\x1b[1A\x1b[0JBazbar". PHP_EOL;
+        $expected .= "\x1b[1A\x1b[0JBazbar" . PHP_EOL;
         $output2->writeln('');
-        $expected .= "\x1b[1A\x1b[0JBazbar". PHP_EOL;
+        $expected .= "\x1b[1A\x1b[0JBazbar" . PHP_EOL;
         $output2->writeln('');
         $expected .= PHP_EOL;
         $output2->writeln('Done.');
-        $expected .= 'Done.'. PHP_EOL;
+        $expected .= 'Done.' . PHP_EOL;
 
         rewind($output->getStream());
         $this->assertSame($expected, stream_get_contents($output->getStream()));
@@ -261,7 +261,7 @@ class ConsoleSectionOutputTest extends TestCase
         $output = new ConsoleSectionOutput($this->stream, $sections, OutputInterface::VERBOSITY_NORMAL, true, new OutputFormatter());
 
         $output->overwrite('foo');
-        $expected .= 'foo'. PHP_EOL;
+        $expected .= 'foo' . PHP_EOL;
         $output->clear();
         $expected .= "\x1b[1A\x1b[0J";
 
@@ -274,10 +274,10 @@ class ConsoleSectionOutputTest extends TestCase
         $sections = [];
         $output = new ConsoleSectionOutput($this->stream, $sections, OutputInterface::VERBOSITY_NORMAL, true, new OutputFormatter());
 
-        $output->write('Foo'. PHP_EOL);
+        $output->write('Foo' . PHP_EOL);
         $output->write('Bar');
 
         rewind($output->getStream());
-        $this->assertEquals(escapeshellcmd('Foo'. PHP_EOL.'Bar'. PHP_EOL), escapeshellcmd(stream_get_contents($output->getStream())));
+        $this->assertEquals(escapeshellcmd('Foo' . PHP_EOL . 'Bar' . PHP_EOL), escapeshellcmd(stream_get_contents($output->getStream())));
     }
 }

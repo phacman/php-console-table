@@ -12,9 +12,9 @@
 namespace PhacMan\ConsoleTable\Tests\Output;
 
 use Generator;
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Exception\InvalidArgumentException;
 use PhacMan\ConsoleTable\Output\AnsiColorMode;
+use PHPUnit\Framework\TestCase;
 
 class AnsiColorModeTest extends TestCase
 {
@@ -31,10 +31,10 @@ class AnsiColorModeTest extends TestCase
      */
     public function testColorsConversionToAnsi8(string $corlorHex, array $expected)
     {
-        $this->assertSame('8;5;'.$expected[AnsiColorMode::Ansi8->name], AnsiColorMode::Ansi8->convertFromHexToAnsiColorCode($corlorHex));
+        $this->assertSame('8;5;' . $expected[AnsiColorMode::Ansi8->name], AnsiColorMode::Ansi8->convertFromHexToAnsiColorCode($corlorHex));
     }
 
-    public static function provideColorsConversion(): Generator
+    public static function provideColorsConversion() : Generator
     {
         yield ['#606702', [
             AnsiColorMode::Ansi8->name => 100,

@@ -12,9 +12,9 @@
 namespace PhacMan\ConsoleTable\Tests\Formatter;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Formatter\OutputFormatterStyle;
 use PhacMan\ConsoleTable\Formatter\OutputFormatterStyleStack;
+use PHPUnit\Framework\TestCase;
 
 class OutputFormatterStyleStackTest extends TestCase
 {

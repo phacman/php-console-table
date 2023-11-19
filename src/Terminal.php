@@ -30,7 +30,7 @@ class Terminal
      * About Ansi color types: https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
      * For more information about true color support with terminals https://github.com/termstandard/colors/.
      */
-    public static function getColorMode() : AnsiColorMode
+    public static function getColorMode() : ?AnsiColorMode
     {
         // Use Cache from previous run (or user forced mode)
         if (null !== self::$colorMode) {

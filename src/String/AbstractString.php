@@ -454,7 +454,7 @@ abstract class AbstractString implements Stringable, JsonSerializable
     abstract public function splice(string $replacement, int $start = 0, int $length = null) : static;
 
     /**
-     * @return static[]
+     * @return array<int, string>
      */
     public function split(string $delimiter, int $limit = null, int $flags = null) : array
     {

@@ -11,10 +11,10 @@
 
 namespace PhacMan\ConsoleTable\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PhacMan\ConsoleTable\Color;
 use PhacMan\ConsoleTable\Output\AnsiColorMode;
 use PhacMan\ConsoleTable\Terminal;
+use PHPUnit\Framework\TestCase;
 
 class ColorTest extends TestCase
 {

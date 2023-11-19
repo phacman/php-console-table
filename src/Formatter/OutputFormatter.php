@@ -67,7 +67,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
     /**
      * Initializes console output formatter.
      *
-     * @param OutputFormatterStyleInterface $styles Array of "name => FormatterStyle" instances
+     * @param array $styles Array of "name => FormatterStyle" instances
      */
     public function __construct(bool $decorated = false, array $styles = [])
     {
